@@ -31,7 +31,14 @@ class ConfiguracaoActivity: AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // Chama controller e atualizar view
-        configuracaoController = ConfiguracaoController(this)
+        configuracaoController = ConfiguracaoController(this) { configuracao ->
+            leiauteSpn.setSelection(if (configuracao.leiauteAvancado) 1 else 0)
+            separadorRg.check(
+                if (configuracao.separador == Separador.PONTO) R.id.pontoRb
+                else R.id.virgulaRb
+            )
+            setResult(RESULT_OK, Intent().putExtra(Constantes.CONFIGURACAO, configuracao))
+        }
         configuracaoController.buscaConfiguracao()
     }
 

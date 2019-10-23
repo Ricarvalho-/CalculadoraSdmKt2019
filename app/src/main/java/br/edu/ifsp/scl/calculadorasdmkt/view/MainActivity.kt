@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.calculadorasdmkt.R
+import br.edu.ifsp.scl.calculadorasdmkt.controller.ConfiguracaoController
 import br.edu.ifsp.scl.calculadorasdmkt.model.Configuracao
 import kotlinx.android.synthetic.main.toolbar.*
 
@@ -19,10 +20,15 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = getString(R.string.app_name)
         setSupportActionBar(toolbar)
 
-        // Fragment padrão
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.calculadoraFl, CalculadoraBasicaFragment())
-            .commit()
+        ConfiguracaoController(this) {
+            val fragment =
+                if (it.leiauteAvancado) CalculadoraAvancadaFragment()
+                else CalculadoraBasicaFragment()
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.calculadoraFl, fragment)
+                .commit()
+        }.buscaConfiguracao()
     }
 
     // Cria o menu
