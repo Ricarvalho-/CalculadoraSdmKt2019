@@ -71,6 +71,7 @@ class ConfiguracaoActivity: AppCompatActivity() {
         configuracaoController.salvaConfiguracao(novaConfiguracao)
 
         Toast.makeText(this, "Configuração salva!", Toast.LENGTH_SHORT).show()
+        finish()
     }
 
     fun onCancelClick(view: View) {
