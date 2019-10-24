@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
 
         ConfiguracaoController(this) {
             val fragment =
-                if (it.leiauteAvancado) CalculadoraAvancadaFragment()
-                else CalculadoraBasicaFragment()
+                if (it.leiauteAvancado) CalculadoraAvancadaFragment.getInstance(it)
+                else CalculadoraBasicaFragment.getInstance(it)
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.calculadoraFl, fragment)
@@ -71,12 +71,12 @@ class MainActivity : AppCompatActivity() {
 
             if (configuracao!!.leiauteAvancado) {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.calculadoraFl, CalculadoraAvancadaFragment())
+                    .replace(R.id.calculadoraFl, CalculadoraAvancadaFragment.getInstance(configuracao))
                     .commit()
             }
             else {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.calculadoraFl, CalculadoraBasicaFragment())
+                    .replace(R.id.calculadoraFl, CalculadoraBasicaFragment.getInstance(configuracao))
                     .commit()
             }
         }

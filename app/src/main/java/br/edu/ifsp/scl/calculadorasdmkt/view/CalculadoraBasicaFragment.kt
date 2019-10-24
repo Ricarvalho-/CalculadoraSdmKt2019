@@ -8,12 +8,27 @@ import android.widget.Button
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import br.edu.ifsp.scl.calculadorasdmkt.R
+import br.edu.ifsp.scl.calculadorasdmkt.model.Configuracao
 import br.edu.ifsp.scl.calculadorasdmkt.utils.Calculadora
 import br.edu.ifsp.scl.calculadorasdmkt.utils.Operador
 import kotlinx.android.synthetic.main.fragment_calculadora_basica.*
 
 class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
     var concatenaLcd: Boolean = true
+
+    companion object {
+        private const val separatorKey = "separator"
+
+        fun getInstance(setup: Configuracao): CalculadoraBasicaFragment {
+            val instance = CalculadoraBasicaFragment()
+
+            val args = Bundle()
+            args.putSerializable(separatorKey, setup.separador)
+            instance.arguments = args
+
+            return instance
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
