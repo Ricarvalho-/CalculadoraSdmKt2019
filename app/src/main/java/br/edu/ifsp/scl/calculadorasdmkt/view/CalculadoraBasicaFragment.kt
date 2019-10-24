@@ -9,6 +9,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import br.edu.ifsp.scl.calculadorasdmkt.R
 import br.edu.ifsp.scl.calculadorasdmkt.model.Configuracao
+import br.edu.ifsp.scl.calculadorasdmkt.model.Separador
 import br.edu.ifsp.scl.calculadorasdmkt.utils.Calculadora
 import br.edu.ifsp.scl.calculadorasdmkt.utils.Operador
 import kotlinx.android.synthetic.main.fragment_calculadora_basica.*
@@ -29,6 +30,8 @@ class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
             return instance
         }
     }
+
+    private fun currentSeparator() = arguments?.getSerializable(separatorKey) as Separador
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,11 +55,12 @@ class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
             }
             // Ponto
             pontoBt -> {
-                if (!lcdTv.text.toString().contains(".")){
+                val separator = pontoBt.text.toString()
+                if (!lcdTv.text.toString().contains(separator)){
                     if (!concatenaLcd) {
                         lcdTv.text = "0"
                     }
-                    lcdTv.append(".")
+                    lcdTv.append(separator)
                     concatenaLcd = true
                 }
             }
@@ -70,10 +74,16 @@ class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
     }
 
     fun cliqueOperador(operador: Operador) {
-        lcdTv.text = Calculadora.calcula(
-            lcdTv.text.toString().toFloat(),
-            operador
-        ).toString()
+        val text = lcdTv.text.toString()
+        val value = when (currentSeparator()) {
+            Separador.VIRGULA -> text.replace(",", ".").toFloat()
+            Separador.PONTO -> text.toFloat()
+        }
+        val result = Calculadora.calcula(value, operador).toString()
+        lcdTv.text = when (currentSeparator()) {
+            Separador.VIRGULA -> result.replace(".", ",")
+            Separador.PONTO -> result
+        }
         concatenaLcd = false
     }
 
@@ -85,6 +95,11 @@ class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
             if (v is Button) {
                 v.setOnClickListener(::onClick)
             }
+        }
+
+        pontoBt.text = when (currentSeparator()) {
+            Separador.VIRGULA -> ","
+            Separador.PONTO -> "."
         }
     }
 
