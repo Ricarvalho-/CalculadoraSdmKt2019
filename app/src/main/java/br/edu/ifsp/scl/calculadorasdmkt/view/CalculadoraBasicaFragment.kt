@@ -14,7 +14,7 @@ import br.edu.ifsp.scl.calculadorasdmkt.utils.Calculadora
 import br.edu.ifsp.scl.calculadorasdmkt.utils.Operador
 import kotlinx.android.synthetic.main.fragment_calculadora_basica.*
 
-class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
+open class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
     var concatenaLcd: Boolean = true
 
     companion object {
@@ -31,7 +31,7 @@ class CalculadoraBasicaFragment: Fragment(), View.OnClickListener {
         }
     }
 
-    private fun currentSeparator() = arguments?.getSerializable(separatorKey) as Separador
+    protected fun currentSeparator() = arguments?.getSerializable(separatorKey) as Separador
 
     override fun onCreateView(
         inflater: LayoutInflater,
