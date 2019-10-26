@@ -20,10 +20,10 @@ class MainActivity : AppCompatActivity() {
         toolbar.title = getString(R.string.app_name)
         setSupportActionBar(toolbar)
 
-        ConfiguracaoController(this) {
+        ConfiguracaoController(this) { (_, configuracao) ->
             val fragment =
-                if (it.leiauteAvancado) CalculadoraAvancadaFragment.getInstance(it)
-                else CalculadoraBasicaFragment.getInstance(it)
+                if (configuracao.leiauteAvancado) CalculadoraAvancadaFragment.getInstance(configuracao)
+                else CalculadoraBasicaFragment.getInstance(configuracao)
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.calculadoraFl, fragment)

@@ -3,17 +3,24 @@ package br.edu.ifsp.scl.calculadorasdmkt.controller
 import android.content.Context
 import br.edu.ifsp.scl.calculadorasdmkt.model.Configuracao
 import br.edu.ifsp.scl.calculadorasdmkt.model.ConfiguracaoService
+import br.edu.ifsp.scl.calculadorasdmkt.model.PersistencePreference
 
-class ConfiguracaoController(context: Context, var onSetupResult: (Configuracao) -> Unit) {
+typealias Setup = Pair<PersistencePreference, Configuracao>
+
+class ConfiguracaoController(context: Context, var onSetupResult: (Setup) -> Unit) {
     private val model: ConfiguracaoService = ConfiguracaoService(context.applicationContext)
+
+    fun update(persistencePreference: PersistencePreference) {
+        model.persistencePreference = persistencePreference
+    }
 
     fun salvaConfiguracao(configuracao: Configuracao) {
         model.setConfiguracao(configuracao)
-        onSetupResult(configuracao)
+        onSetupResult(Setup(model.persistencePreference, configuracao))
     }
 
     fun buscaConfiguracao() {
         val configuracao = model.getConfiguracao()
-        onSetupResult(configuracao)
+        onSetupResult(Setup(model.persistencePreference, configuracao))
     }
 }

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import br.edu.ifsp.scl.calculadorasdmkt.R
 import br.edu.ifsp.scl.calculadorasdmkt.controller.ConfiguracaoController
 import br.edu.ifsp.scl.calculadorasdmkt.model.Configuracao
+import br.edu.ifsp.scl.calculadorasdmkt.model.PersistencePreference
 import br.edu.ifsp.scl.calculadorasdmkt.model.Separador
 import kotlinx.android.synthetic.main.activity_configuracao.*
 import kotlinx.android.synthetic.main.toolbar.*
@@ -31,7 +32,12 @@ class ConfiguracaoActivity: AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         // Chama controller e atualizar view
-        configuracaoController = ConfiguracaoController(this) { configuracao ->
+        configuracaoController = ConfiguracaoController(this) { (persistence, configuracao) ->
+            persistenceSpinner.setSelection(when (persistence) {
+                PersistencePreference.SHARED_PREFS -> 0
+                PersistencePreference.SQLITE_DB -> 1
+            })
+
             leiauteSpn.setSelection(if (configuracao.leiauteAvancado) 1 else 0)
             separadorRg.check(
                 if (configuracao.separador == Separador.PONTO) R.id.pontoRb
@@ -42,24 +48,12 @@ class ConfiguracaoActivity: AppCompatActivity() {
         configuracaoController.buscaConfiguracao()
     }
 
-    // Função chamada pelo Controller depois de acessar o Model
-    fun atualizaView(configuracao: Configuracao) {
-        // Ajusta o leiaute conforme a configuração
-
-        leiauteSpn.setSelection( if (configuracao.leiauteAvancado) 1 else 0 )
-        separadorRg.check(
-            if (configuracao.separador == Separador.PONTO)
-                R.id.pontoRb
-            else
-                R.id.virgulaRb
+    fun onClickSalvaConfiguracao(v: View) {
+        configuracaoController.update(
+            if (persistenceSpinner.selectedItemPosition == 0) PersistencePreference.SHARED_PREFS
+            else PersistencePreference.SQLITE_DB
         )
 
-        // SETAR RESULTADO PARA MAIN ACTIVTY
-        setResult(AppCompatActivity.RESULT_OK, Intent().
-            putExtra(Constantes.CONFIGURACAO, configuracao))
-    }
-
-    fun onClickSalvaConfiguracao(v: View) {
         // Pega os dados da tela
         val leiauteAvancado = leiauteSpn.selectedItemPosition == 1
         val separador = if (pontoRb.isChecked) Separador.PONTO else Separador.VIRGULA

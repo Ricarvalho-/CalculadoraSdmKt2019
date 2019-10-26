@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="persistence_kind">
+        <item>Shared Prefs</item>
+        <item>Banco SQLite</item>
+    </string-array>
+</resources>

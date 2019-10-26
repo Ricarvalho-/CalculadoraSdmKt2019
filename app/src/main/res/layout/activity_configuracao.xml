@@ -11,7 +11,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,20 +19,49 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tipo de persistência" />
+
+        <Spinner
+            android:id="@+id/persistenceSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/persistence_kind"
+            android:textAlignment="viewEnd" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Tipo de leiaute" />
+
         <Spinner
             android:id="@+id/leiauteSpn"
             android:layout_width="wrap_content"
@@ -47,26 +76,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/salvarBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Separador" />
+
         <RadioGroup
             android:id="@+id/separadorRg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
+
             <RadioButton
                 android:id="@+id/pontoRb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ponto" />
+
             <RadioButton
                 android:id="@+id/virgulaRb"
                 android:layout_width="match_parent"
